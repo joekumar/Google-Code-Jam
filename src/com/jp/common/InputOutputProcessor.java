@@ -1,10 +1,12 @@
 package com.jp.common;
 
 import java.io.BufferedReader;
+import java.io.FileOutputStream;
 import java.io.FileReader;
+import java.io.PrintStream;
 import java.util.Scanner;
 
-public class InputReader {
+public class InputOutputProcessor {
   
   private int numberOfCases;
   private boolean doesInputHaveDataSetLines;
@@ -38,20 +40,20 @@ public class InputReader {
     String[] dataSet;
     String strDataSetLine = "";
     
-      strDataSetLine = scanInput.nextLine();
-      
-      if (doesInputHaveDataSetLines) {
-        String[] DataSetLineArray = strDataSetLine.split(DELIMITER);
-        numberOfDataSetLines = Integer
-            .parseInt(DataSetLineArray[indexOfDataSetLine]);
-      }
+    strDataSetLine = scanInput.nextLine();
+    
+    if (doesInputHaveDataSetLines) {
+      String[] DataSetLineArray = strDataSetLine.split(DELIMITER);
+      numberOfDataSetLines = Integer
+          .parseInt(DataSetLineArray[indexOfDataSetLine]);
+    }
     
     dataSet = new String[numberOfDataSetLines];
     dataSet[0] = strDataSetLine;
     
-      for (int i = 1; i < numberOfDataSetLines; i++) {
-        dataSet[i] = scanInput.nextLine();
-      }
+    for (int i = 1; i < numberOfDataSetLines; i++) {
+      dataSet[i] = scanInput.nextLine();
+    }
     return dataSet;
   }
   
@@ -107,8 +109,25 @@ public class InputReader {
     this.indexOfDataSetLine = indexOfDataSetLine;
   }
   
-  public void closeScanner(){
+  public void closeScanner() {
     scanInput.close();
+  }
+  
+  public void writeOutput(String outputFileName, String[] resultArray) {
+    // To be moved out
+    PrintStream out = null;
+    try {
+      out = new PrintStream(new FileOutputStream(outputFileName));
+      for (int i = 0; i < resultArray.length; i++) {
+        out.print(resultArray[i]);
+        out.print("\n");
+      }
+      out.close();
+    } catch (Exception e) {
+      e.printStackTrace();
+      System.exit(0);
+    }
+    
   }
   
 }
